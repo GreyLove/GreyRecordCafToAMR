@@ -67,19 +67,19 @@ static double endRecordTime=0;
     }
     
     /** 获取时间 */
-    NSData *data = [RecordVoice encodeWAVEToAMROfFile:fileUrl];
-    NSString *time = [RecordVoice getAudioTime:data];
+//    NSData *data = [RecordVoice encodeWAVEToAMROfFile:fileUrl];
+//    NSString *time = [RecordVoice getAudioTime:data];
 
     /** 大于2s秒小于30s写入Document */
-    if (data.length>0) {
-        [recordVoice writeToAmrFile:fileUrl amrData:data call:^(BOOL success) {
-            if (success) {
-                NSLog(@"写入成功");
-            }
-        }];
-    }
+//    if (data.length>0) {
+//        [recordVoice writeToAmrFile:fileUrl amrData:data call:^(BOOL success) {
+//            if (success) {
+//                NSLog(@"写入成功");
+//            }
+//        }];
+//    }
 
-    [recordVoice playAmrData:data];
+//    [recordVoice playAmrData:data];
  }
 - (void)refreshProgress:(CGFloat)progress{
     [_audioPower setProgress:progress];

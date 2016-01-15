@@ -24,13 +24,13 @@ typedef void (^writeSuccessBlock)(BOOL success);
 /* 获取时长 */
 + (NSString*) getAudioTime:(NSData *) data;
 
-/* 得到amr data */
-+ (NSData*)encodeWAVEToAMROfData:(NSData*)cafData;
-+ (NSData*)encodeWAVEToAMROfFile:(NSURL*)cafFileUrl;
+///* 得到amr data */
+//+ (NSData*)encodeWAVEToAMROfData:(NSData*)cafData;
+//+ (NSData*)encodeWAVEToAMROfFile:(NSURL*)cafFileUrl;
 
 /* 播放amr类型字节 */
-- (void)playAmrData:(NSData*)data;
-- (void)writeToAmrFile:(NSURL*)tempFile0 amrData:(NSData*)curAudioData call:(writeSuccessBlock)block;
+- (void)playCafData:(NSData*)data;
+//- (void)writeToAmrFile:(NSURL*)tempFile0 amrData:(NSData*)curAudioData call:(writeSuccessBlock)block;
 
 
 

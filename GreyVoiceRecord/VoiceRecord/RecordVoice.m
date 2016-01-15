@@ -8,25 +8,24 @@
 
 #import "RecordVoice.h"
 #import <AVFoundation/AVFoundation.h>
-#import "amrFileCodec.h"
+//#import "amrFileCodec.h"
 
 @interface RecordVoice()<AVAudioRecorderDelegate>
 {
     NSData *curAudio;
     NSURL *tempFile;
-}
-@property (nonatomic,strong) NSTimer *timer;//录音声波监控（注意这里暂时不对播放进行监控）
-
-@end
-
-@implementation RecordVoice
-{
     //录音
     AVAudioRecorder *_audioRecorder;
     
     //音频播放器，用于播放录音文件
     AVAudioPlayer *_audioPlayer;
 }
+@property (nonatomic,strong) NSTimer *timer;//录音声波监控（注意这里暂时不对播放进行监控）
+
+@end
+
+@implementation RecordVoice
+
 
 - (id)init{
     if (self = [super init]) {
@@ -165,10 +164,10 @@
 /**
  *  播放
  */
-- (void)playAmrData:(NSData*)data{
+- (void)playCafData:(NSData*)data{
     NSError *error;
     /** 只能播放caf的 amr的是播放不了的*/
-    _audioPlayer=[[AVAudioPlayer alloc]initWithData:DecodeAMRToWAVE(data)
+    _audioPlayer=[[AVAudioPlayer alloc]initWithData:data
                                               error:&error];
     _audioPlayer.numberOfLoops=0;
     
@@ -194,18 +193,18 @@
 
     return timeStr;
 }
-/**
- *  得到arm格式的Data
- */
-+ (NSData*)encodeWAVEToAMROfData:(NSData*)cafData{
-    NSData *data = EncodeWAVEToAMR(cafData, 1, 16);
-    return data;
-}
-
-+ (NSData*)encodeWAVEToAMROfFile:(NSURL*)cafFileUrl{
-    NSData *data = EncodeWAVEToAMR([NSData dataWithContentsOfURL:cafFileUrl], 1, 16);
-    return data;
-}
+///**
+// *  得到arm格式的Data
+// */
+//+ (NSData*)encodeWAVEToAMROfData:(NSData*)cafData{
+//    NSData *data = EncodeWAVEToAMR(cafData, 1, 16);
+//    return data;
+//}
+//
+//+ (NSData*)encodeWAVEToAMROfFile:(NSURL*)cafFileUrl{
+//    NSData *data = EncodeWAVEToAMR([NSData dataWithContentsOfURL:cafFileUrl], 1, 16);
+//    return data;
+//}
 
 /**
  *  录制
