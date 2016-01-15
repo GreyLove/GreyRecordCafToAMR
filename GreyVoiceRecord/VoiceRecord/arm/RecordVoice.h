@@ -10,7 +10,6 @@
 
 typedef void (^progressBlock)(float progress);
 
-typedef void (^writeSuccessBlock)(BOOL success);
 
 
 @interface RecordVoice : NSObject
@@ -21,17 +20,14 @@ typedef void (^writeSuccessBlock)(BOOL success);
 /* 录音 */
 - (void)recordVioce;
 - (NSURL*)stopVioce;
+
 /* 获取时长 */
-+ (NSString*) getAudioTime:(NSData *) data;
+- (NSString*)getAudioTime:(NSData *) data;
 
-///* 得到amr data */
-//+ (NSData*)encodeWAVEToAMROfData:(NSData*)cafData;
-//+ (NSData*)encodeWAVEToAMROfFile:(NSURL*)cafFileUrl;
-
-/* 播放amr类型字节 */
+/* 播放caf类型字节 */
 - (void)playCafData:(NSData*)data;
-//- (void)writeToAmrFile:(NSURL*)tempFile0 amrData:(NSData*)curAudioData call:(writeSuccessBlock)block;
 
-
+/* 销毁对象 */
+- (void)destroy;
 
 @end

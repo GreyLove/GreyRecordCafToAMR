@@ -8,6 +8,7 @@
 
 #import "RecordVoice.h"
 #import <AVFoundation/AVFoundation.h>
+#import <UIKit/UIKit.h>
 //#import "amrFileCodec.h"
 
 @interface RecordVoice()<AVAudioRecorderDelegate>
@@ -30,18 +31,32 @@
 - (id)init{
     if (self = [super init]) {
         [self setAudioSession];
+        [[UIDevice currentDevice] setProximityMonitoringEnabled:YES]; //建议在播放之前设置yes，播放结束设置NO，这个功能是开启红外感应
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sensorStateChange:) name:UIDeviceProximityStateDidChangeNotification object:nil];
     }
     return self;
+}
+//处理监听触发事件
+-(void)sensorStateChange:(NSNotificationCenter *)notification;
+{
+    if ([[UIDevice currentDevice] proximityState] == YES){
+        NSLog(@"Device is close to user");
+        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+    }
+    else{
+        NSLog(@"Device is not close to user");
+        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
+    }
 }
 
 -(void)setAudioSession{
     AVAudioSession *audioSession=[AVAudioSession sharedInstance];
     //设置为播放和录音状态，以便可以在录制完之后播放录音
-    [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+    [audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
     [audioSession setActive:YES error:nil];
- 
 
 }
+
 /**
  *  取得录音文件保存路径
  *
@@ -146,21 +161,9 @@
 #pragma mark --录音代理
 -(void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag{
     NSLog(@"录音完成!");
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
 }
-/**
- *  写入文件
- */
-- (void)writeToAmrFile:(NSURL*)tempFile0 amrData:(NSData*)curAudioData call:(writeSuccessBlock)block{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentPath = [paths objectAtIndex:0];
-    NSString *amrName = [[[tempFile0 lastPathComponent] componentsSeparatedByString:@"."] firstObject];
-    NSString *amrFile = [documentPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.amr",amrName]];
-    BOOL ist = [curAudioData writeToFile:amrFile atomically:YES];
-    if (block) {
-        block(ist);
-    }
 
-}
 /**
  *  播放
  */
@@ -169,9 +172,10 @@
     /** 只能播放caf的 amr的是播放不了的*/
     _audioPlayer=[[AVAudioPlayer alloc]initWithData:data
                                               error:&error];
-    _audioPlayer.numberOfLoops=0;
+    _audioPlayer.numberOfLoops=10;
     
     [_audioPlayer prepareToPlay];
+    
     
     if (error) {
         NSLog(@"创建播放器过程中发生错误，错误信息：%@",error.localizedDescription);
@@ -185,7 +189,7 @@
 /**
  *  录制的时间
  */
-+(NSString*) getAudioTime:(NSData *) data {
+- (NSString*)getAudioTime:(NSData *) data {
     NSError * error;
     AVAudioPlayer*play = [[AVAudioPlayer alloc] initWithData:data error:&error];
     NSTimeInterval n = [play duration];
@@ -193,30 +197,47 @@
 
     return timeStr;
 }
-///**
-// *  得到arm格式的Data
-// */
-//+ (NSData*)encodeWAVEToAMROfData:(NSData*)cafData{
-//    NSData *data = EncodeWAVEToAMR(cafData, 1, 16);
-//    return data;
-//}
-//
-//+ (NSData*)encodeWAVEToAMROfFile:(NSURL*)cafFileUrl{
-//    NSData *data = EncodeWAVEToAMR([NSData dataWithContentsOfURL:cafFileUrl], 1, 16);
-//    return data;
-//}
+
 
 /**
  *  录制
  */
 - (void)recordVioce {
-
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+    [self checkMicrophone];
     [_audioPlayer stop];
     _audioPlayer = nil;
     [self setupAudioRecorder];
     if (![_audioRecorder isRecording]) {
         [_audioRecorder record];//首次使用应用时如果调用record方法会询问用户是否允许使用麦克风
         self.timer.fireDate=[NSDate distantPast];
+    }
+}
+-(void)checkMicrophone
+{
+    [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
+        if (!granted) {
+            NSString * messageString = [NSString stringWithFormat:@"请在iPhone\"设置-隐私-麦克风\"中，允许手机看病访问你的麦克风"];
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:nil message:messageString delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"立即设置", nil];
+            [alert show];
+        }
+    }];
+
+
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex==1) {
+        if(([[UIDevice currentDevice].systemVersion floatValue])>=8.0){
+            NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+            if ([[UIApplication sharedApplication] canOpenURL:url]) {
+                [[UIApplication sharedApplication] openURL:url];
+            }
+        } else {
+            NSURL*url=[NSURL URLWithString:@"prefs:root=Privacy"];
+            [[UIApplication sharedApplication] openURL:url];
+        }
     }
 }
 /**
@@ -236,6 +257,7 @@
    _audioRecorder = nil;
     [self.timer invalidate];
     self.timer = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)dealloc{

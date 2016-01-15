@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		191DF69E1C2CE58700B896CB /* RecordVoice.m in Sources */ = {isa = PBXBuildFile; fileRef = 191DF69D1C2CE58700B896CB /* RecordVoice.m */; };
 		191DF6A11C2CEB9800B896CB /* RecordButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 191DF6A01C2CEB9800B896CB /* RecordButton.m */; };
 		199DB6E61C1FC61400CE9518 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 199DB6E51C1FC61400CE9518 /* main.m */; };
 		199DB6E91C1FC61400CE9518 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 199DB6E81C1FC61400CE9518 /* AppDelegate.m */; };
@@ -18,6 +17,9 @@
 		199DB6FF1C1FC61400CE9518 /* VoiceRecordTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 199DB6FE1C1FC61400CE9518 /* VoiceRecordTests.m */; };
 		199DB70A1C1FC61400CE9518 /* VoiceRecordUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 199DB7091C1FC61400CE9518 /* VoiceRecordUITests.m */; };
 		199DB71C1C1FEA1200CE9518 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 199DB71B1C1FEA1200CE9518 /* AVFoundation.framework */; };
+		19D1B8961C48A8CB0091B905 /* RecordManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 19D1B8951C48A8CB0091B905 /* RecordManager.m */; };
+		19D1B8981C48C8150091B905 /* cf027d55-bdfd-48ae-bdcf-e9304ca934fc.amr in Resources */ = {isa = PBXBuildFile; fileRef = 19D1B8971C48C8150091B905 /* cf027d55-bdfd-48ae-bdcf-e9304ca934fc.amr */; };
+		19D1B89B1C48D9820091B905 /* RecordVoice.m in Sources */ = {isa = PBXBuildFile; fileRef = 19D1B89A1C48D9820091B905 /* RecordVoice.m */; };
 		19E8ED4E1C3146B700038723 /* amrFileCodec.m in Sources */ = {isa = PBXBuildFile; fileRef = 19E8ED411C3146B700038723 /* amrFileCodec.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		19E8ED4F1C3146B700038723 /* libopencore-amrnb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19E8ED4A1C3146B700038723 /* libopencore-amrnb.a */; };
 		19E8ED501C3146B700038723 /* libopencore-amrwb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19E8ED4B1C3146B700038723 /* libopencore-amrwb.a */; };
@@ -41,8 +43,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		191DF69C1C2CE58700B896CB /* RecordVoice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordVoice.h; sourceTree = "<group>"; };
-		191DF69D1C2CE58700B896CB /* RecordVoice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordVoice.m; sourceTree = "<group>"; };
 		191DF69F1C2CEB9800B896CB /* RecordButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordButton.h; sourceTree = "<group>"; };
 		191DF6A01C2CEB9800B896CB /* RecordButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordButton.m; sourceTree = "<group>"; };
 		199DB6E11C1FC61400CE9518 /* VoiceRecord.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoiceRecord.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -62,6 +62,11 @@
 		199DB7091C1FC61400CE9518 /* VoiceRecordUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VoiceRecordUITests.m; sourceTree = "<group>"; };
 		199DB70B1C1FC61400CE9518 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		199DB71B1C1FEA1200CE9518 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		19D1B8941C48A8CB0091B905 /* RecordManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordManager.h; sourceTree = "<group>"; };
+		19D1B8951C48A8CB0091B905 /* RecordManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordManager.m; sourceTree = "<group>"; };
+		19D1B8971C48C8150091B905 /* cf027d55-bdfd-48ae-bdcf-e9304ca934fc.amr */ = {isa = PBXFileReference; lastKnownFileType = file; path = "cf027d55-bdfd-48ae-bdcf-e9304ca934fc.amr"; sourceTree = "<group>"; };
+		19D1B8991C48D9820091B905 /* RecordVoice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordVoice.h; sourceTree = "<group>"; };
+		19D1B89A1C48D9820091B905 /* RecordVoice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordVoice.m; sourceTree = "<group>"; };
 		19E8ED401C3146B700038723 /* amrFileCodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amrFileCodec.h; sourceTree = "<group>"; };
 		19E8ED411C3146B700038723 /* amrFileCodec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = amrFileCodec.m; sourceTree = "<group>"; };
 		19E8ED441C3146B700038723 /* interf_dec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = interf_dec.h; sourceTree = "<group>"; };
@@ -124,13 +129,14 @@
 		199DB6E31C1FC61400CE9518 /* VoiceRecord */ = {
 			isa = PBXGroup;
 			children = (
+				19D1B8971C48C8150091B905 /* cf027d55-bdfd-48ae-bdcf-e9304ca934fc.amr */,
 				19E8ED3F1C3146B700038723 /* arm */,
 				199DB6E71C1FC61400CE9518 /* AppDelegate.h */,
 				199DB6E81C1FC61400CE9518 /* AppDelegate.m */,
 				199DB6EA1C1FC61400CE9518 /* ViewController.h */,
 				199DB6EB1C1FC61400CE9518 /* ViewController.m */,
-				191DF69C1C2CE58700B896CB /* RecordVoice.h */,
-				191DF69D1C2CE58700B896CB /* RecordVoice.m */,
+				19D1B8941C48A8CB0091B905 /* RecordManager.h */,
+				19D1B8951C48A8CB0091B905 /* RecordManager.m */,
 				191DF69F1C2CEB9800B896CB /* RecordButton.h */,
 				191DF6A01C2CEB9800B896CB /* RecordButton.m */,
 				199DB6ED1C1FC61400CE9518 /* Main.storyboard */,
@@ -171,6 +177,8 @@
 		19E8ED3F1C3146B700038723 /* arm */ = {
 			isa = PBXGroup;
 			children = (
+				19D1B8991C48D9820091B905 /* RecordVoice.h */,
+				19D1B89A1C48D9820091B905 /* RecordVoice.m */,
 				19E8ED401C3146B700038723 /* amrFileCodec.h */,
 				19E8ED411C3146B700038723 /* amrFileCodec.m */,
 				19E8ED421C3146B700038723 /* include */,
@@ -319,6 +327,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				199DB6F41C1FC61400CE9518 /* LaunchScreen.storyboard in Resources */,
+				19D1B8981C48C8150091B905 /* cf027d55-bdfd-48ae-bdcf-e9304ca934fc.amr in Resources */,
 				199DB6F11C1FC61400CE9518 /* Assets.xcassets in Resources */,
 				199DB6EF1C1FC61400CE9518 /* Main.storyboard in Resources */,
 			);
@@ -345,9 +354,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				19D1B8961C48A8CB0091B905 /* RecordManager.m in Sources */,
+				19D1B89B1C48D9820091B905 /* RecordVoice.m in Sources */,
 				191DF6A11C2CEB9800B896CB /* RecordButton.m in Sources */,
 				199DB6EC1C1FC61400CE9518 /* ViewController.m in Sources */,
-				191DF69E1C2CE58700B896CB /* RecordVoice.m in Sources */,
 				199DB6E91C1FC61400CE9518 /* AppDelegate.m in Sources */,
 				199DB6E61C1FC61400CE9518 /* main.m in Sources */,
 				19E8ED4E1C3146B700038723 /* amrFileCodec.m in Sources */,

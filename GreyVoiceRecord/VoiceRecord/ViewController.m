@@ -11,6 +11,7 @@
 #import "RecordButton.h"
 #import "RecordVoice.h"
 #import "amrFileCodec.h"
+#import "RecordManager.h"
 @interface ViewController ()<AVAudioRecorderDelegate>
 {
     UIProgressView *_audioPower;//音频波动
@@ -24,6 +25,7 @@ static double endRecordTime=0;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     _audioPower = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 400, CGRectGetWidth(self.view.bounds), 20)];
     [self.view addSubview:_audioPower];
     
@@ -40,9 +42,7 @@ static double endRecordTime=0;
         NSLog(@"停止录音了..");
         [weakSelf stopVoice];
     };
-    
-    recordVoice = [[RecordVoice alloc] init];
-    recordVoice.progress = ^(float progress){
+    [RecordManager shareManager].progress = ^(float progress){
         [weakSelf refreshProgress:progress];
     };
     
@@ -52,35 +52,42 @@ static double endRecordTime=0;
 
 - (void)recordVoice{
     startRecordTime = [NSDate timeIntervalSinceReferenceDate];
-    [recordVoice recordVioce];
+    [[RecordManager shareManager] startTalkVoice];
 }
 - (void)stopVoice{
     endRecordTime = [NSDate timeIntervalSinceReferenceDate];
     endRecordTime -= startRecordTime;
+    NSURL *url = [[RecordManager shareManager] stopTalkVoice];
+
     [_audioPower setProgress:0.0];
-    NSURL *fileUrl = [recordVoice stopVioce];
 
     if (endRecordTime<2.00f) {
         return;
     } else if (endRecordTime>30.00f){
         return;
     }
+
+    NSData *data = [NSData dataWithContentsOfURL:url];
     
     /** 获取时间 */
-//    NSData *data = [RecordVoice encodeWAVEToAMROfFile:fileUrl];
-//    NSString *time = [RecordVoice getAudioTime:data];
+    NSString *time = [[RecordManager shareManager] getAudioTime:data];
 
-    /** 大于2s秒小于30s写入Document */
-//    if (data.length>0) {
-//        [recordVoice writeToAmrFile:fileUrl amrData:data call:^(BOOL success) {
-//            if (success) {
-//                NSLog(@"写入成功");
-//            }
-//        }];
-//    }
 
-//    [recordVoice playAmrData:data];
+    __weak __typeof(self) weakSelf = self;
+
+    [[RecordManager shareManager] writeAuToAmrFile:url callback:^(BOOL success, NSData *amrData) {
+        if (success) {
+            [weakSelf play:amrData];
+
+        }
+    }];
+
  }
+- (void)play:(NSData*)data{
+//    NSData *data = [NSData dataWithContentsOfFile:path];
+   [[RecordManager shareManager] playAmrData:data];
+}
+
 - (void)refreshProgress:(CGFloat)progress{
     [_audioPower setProgress:progress];
 }
