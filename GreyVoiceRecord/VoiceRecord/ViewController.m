@@ -9,13 +9,11 @@
 #import "ViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import "RecordButton.h"
-#import "RecordVoice.h"
-#import "amrFileCodec.h"
+
 #import "RecordManager.h"
 @interface ViewController ()<AVAudioRecorderDelegate>
 {
     UIProgressView *_audioPower;//音频波动
-    RecordVoice *recordVoice;
 }
 @end
 static double startRecordTime=0;
@@ -52,7 +50,7 @@ static double endRecordTime=0;
 
 - (void)recordVoice{
     startRecordTime = [NSDate timeIntervalSinceReferenceDate];
-    [[RecordManager shareManager] startTalkVoice];
+    [[RecordManager shareManager] startTalkVoice:@"3"];
 }
 - (void)stopVoice{
     endRecordTime = [NSDate timeIntervalSinceReferenceDate];
@@ -71,6 +69,7 @@ static double endRecordTime=0;
     
     /** 获取时间 */
     NSString *time = [[RecordManager shareManager] getAudioTime:data];
+    NSLog(@"%@",time);
 
 
     __weak __typeof(self) weakSelf = self;

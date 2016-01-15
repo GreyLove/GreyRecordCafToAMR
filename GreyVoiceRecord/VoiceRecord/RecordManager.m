@@ -41,14 +41,15 @@ static RecordManager *signle = nil;
     }
 }
 
-- (void)startTalkVoice{
-    [recordVoice recordVioce];
+- (void)startTalkVoice:(NSString*)fileName{
+    [recordVoice recordVioce:fileName];
 }
 
 - (NSURL*)stopTalkVoice{
      NSURL *fileUrl = [recordVoice stopVioce];
     return fileUrl;
 }
+
 - (void)playAmrData:(NSData*)amrData{
 
     if ([amrData isKindOfClass:[NSData class]]) {

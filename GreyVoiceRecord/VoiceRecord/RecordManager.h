@@ -18,13 +18,18 @@ typedef void (^progressBlock)(float progress);
 
 - (void)writeAuToAmrFile:(NSURL*)tmpFileUrl callback:(writeSuccessBlock)block;
 
-- (void)startTalkVoice;
+/* 存储文件名 */
+- (void)startTalkVoice:(NSString*)fileName;
 
+/* 停止返回存储caf的地址 */
 - (NSURL*)stopTalkVoice;
 
+/* 播放amr 文件 */
 - (void)playAmrData:(NSData*)amrData;
 
+/* 录音时长 */
 - (NSString*)getAudioTime:(NSData *)data;
 
+/* 销毁对象 */
 - (void)destroy;
 @end

@@ -333,7 +333,7 @@ NSData* DecodeAMRToWAVE(NSData* data) {
 		//fwrite(pcmFrame, sizeof(short), PCM_FRAME_SIZE, fpwave);
         [fpwave appendBytes:pcmFrame length:PCM_FRAME_SIZE*sizeof(short)];
         }
-	NSLog(@"frame = %d", nFrameCount);
+//	NSLog(@"frame = %d", nFrameCount);
 	Decoder_Interface_exit(destate);
 	
 	//fclose(fpwave);

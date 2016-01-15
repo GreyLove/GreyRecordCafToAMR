@@ -11,7 +11,7 @@
 #import <UIKit/UIKit.h>
 //#import "amrFileCodec.h"
 
-@interface RecordVoice()<AVAudioRecorderDelegate>
+@interface RecordVoice()<AVAudioRecorderDelegate,AVAudioPlayerDelegate>
 {
     NSData *curAudio;
     NSURL *tempFile;
@@ -57,21 +57,7 @@
 
 }
 
-/**
- *  取得录音文件保存路径
- *
- *  @return 录音文件路径
- */
--(NSURL *)getSavePath{
-    NSString *tmpDir =  NSTemporaryDirectory();
-    /** 当前时间搓 */
-    NSString *timeSp = [NSString stringWithFormat:@"%.f",[[NSDate date] timeIntervalSince1970]];
-    NSString *cafFlileStr = [NSString stringWithFormat:@"%@.caf",timeSp];
-    tmpDir=[tmpDir stringByAppendingPathComponent:cafFlileStr];
-    NSLog(@"file path---:%@",tmpDir);
-    NSURL *url=[NSURL fileURLWithPath:tmpDir];
-    return url;
-}
+
 
 /**
  *  取得录音文件设置
@@ -111,10 +97,10 @@
  *
  *  @return 录音机对象
  */
--(AVAudioRecorder *)setupAudioRecorder{
+-(AVAudioRecorder *)setupAudioRecorder:(NSString*)uid{
     
     //创建录音文件保存路径
-    NSURL *url=[self getSavePath];
+    NSURL *url=[self getSavePath:uid];
     /** 获取录音对象 */
     tempFile = url;
     //创建录音格式设置
@@ -130,6 +116,26 @@
     }
 
     return _audioRecorder;
+}
+/**
+ *  取得录音文件保存路径
+ *
+ *  @return 录音文件路径
+ */
+-(NSURL *)getSavePath:(NSString*)uid{
+    NSString *tmpDir =  NSTemporaryDirectory();
+    /** 当前时间搓 */
+    NSString *timeSp = [NSString stringWithFormat:@"%.f",[[NSDate date] timeIntervalSince1970]];
+    if (uid.length) {
+        NSString *cafFlileStr = [NSString stringWithFormat:@"%@_%@.caf",uid,timeSp];
+        tmpDir=[tmpDir stringByAppendingPathComponent:cafFlileStr];
+    }else{
+        NSString *cafFlileStr = [NSString stringWithFormat:@"%@.caf",timeSp];
+        tmpDir=[tmpDir stringByAppendingPathComponent:cafFlileStr];
+    }
+    NSLog(@"file path---:%@",tmpDir);
+    NSURL *url=[NSURL fileURLWithPath:tmpDir];
+    return url;
 }
 /**
  *  录音声波监控定制器
@@ -161,7 +167,13 @@
 #pragma mark --录音代理
 -(void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag{
     NSLog(@"录音完成!");
+    _audioRecorder = nil;
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
+}
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag{
+    NSLog(@"播放完成");
+    [[UIDevice currentDevice] setProximityMonitoringEnabled:NO];
+    _audioPlayer = nil;
 }
 
 /**
@@ -172,8 +184,8 @@
     /** 只能播放caf的 amr的是播放不了的*/
     _audioPlayer=[[AVAudioPlayer alloc]initWithData:data
                                               error:&error];
-    _audioPlayer.numberOfLoops=10;
-    
+    _audioPlayer.numberOfLoops=0;
+    _audioPlayer.delegate = self;
     [_audioPlayer prepareToPlay];
     
     
@@ -186,6 +198,7 @@
     }
 
 }
+
 /**
  *  录制的时间
  */
@@ -202,12 +215,12 @@
 /**
  *  录制
  */
-- (void)recordVioce {
+- (void)recordVioce:(NSString*)uid{
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
     [self checkMicrophone];
     [_audioPlayer stop];
     _audioPlayer = nil;
-    [self setupAudioRecorder];
+    [self setupAudioRecorder:uid];
     if (![_audioRecorder isRecording]) {
         [_audioRecorder record];//首次使用应用时如果调用record方法会询问用户是否允许使用麦克风
         self.timer.fireDate=[NSDate distantPast];
@@ -255,8 +268,10 @@
  */
 - (void)destroy{
    _audioRecorder = nil;
+    _audioRecorder = nil;
     [self.timer invalidate];
     self.timer = nil;
+    [[UIDevice currentDevice] setProximityMonitoringEnabled:NO];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -267,6 +282,8 @@
     _audioPlayer = nil;
     [self.timer invalidate];
     self.timer = nil;
+    [[UIDevice currentDevice] setProximityMonitoringEnabled:NO];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

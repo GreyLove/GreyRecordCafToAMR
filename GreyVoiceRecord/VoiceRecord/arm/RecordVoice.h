@@ -17,8 +17,8 @@ typedef void (^progressBlock)(float progress);
 
 @property (nonatomic,copy)progressBlock progress;
 
-/* 录音 */
-- (void)recordVioce;
+/* 录音 uid文件名_时间戳*/
+- (void)recordVioce:(NSString*)uid;
 - (NSURL*)stopVioce;
 
 /* 获取时长 */
