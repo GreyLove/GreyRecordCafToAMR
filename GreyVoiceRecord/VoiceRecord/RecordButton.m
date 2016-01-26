@@ -20,6 +20,8 @@
 
     [record setTitle:@"长按开始录音" forState:UIControlStateNormal];
     [record setTitle:@"正在录音..." forState:UIControlStateHighlighted];
+    [record setTitle:@"正在录音..." forState:UIControlStateSelected];
+
     [record setBackgroundColor:[UIColor brownColor]];
     record.titleLabel.font = [UIFont systemFontOfSize:15];
     [record setTitleColor:[UIColor yellowColor] forState:UIControlStateHighlighted];

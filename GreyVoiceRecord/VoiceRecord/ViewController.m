@@ -88,6 +88,7 @@ static double endRecordTime=0;
  }
 
 - (void)cancelRecored{
+    [_audioPower setProgress:0.0];
     [[RecordManager shareManager] cancelTalkVoice];
 }
 - (void)play:(NSData*)data{

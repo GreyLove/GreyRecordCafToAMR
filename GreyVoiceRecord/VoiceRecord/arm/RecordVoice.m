@@ -278,9 +278,11 @@
  */
 - (void)cancleVoice{
     _audioRecorder.delegate = nil;
+    
     if ([_audioRecorder isRecording]) {
         [_audioRecorder stop];
         [_audioRecorder deleteRecording];
+        self.timer.fireDate=[NSDate distantFuture];
     }
     _audioRecorder = nil;
 }
@@ -289,8 +291,10 @@
  *  销毁
  */
 - (void)destroy{
-   _audioRecorder = nil;
+    [_audioPlayer stop];
+    [_audioRecorder stop];
     _audioRecorder = nil;
+    _audioPlayer = nil;
     [self.timer invalidate];
     self.timer = nil;
     [[UIDevice currentDevice] setProximityMonitoringEnabled:NO];
