@@ -24,6 +24,9 @@ typedef void (^progressBlock)(float progress);
 /* 停止返回存储caf的地址 */
 - (NSURL*)stopTalkVoice;
 
+/* 取消录音,删除文件 */
+- (void)cancelTalkVoice;
+
 /* 播放amr 文件 */
 - (void)playAmrData:(NSData*)amrData;
 

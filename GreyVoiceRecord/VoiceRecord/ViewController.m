@@ -40,6 +40,11 @@ static double endRecordTime=0;
         NSLog(@"停止录音了..");
         [weakSelf stopVoice];
     };
+    
+    button.cancleClickBlock = ^(){
+        NSLog(@"取消录音");
+        [weakSelf cancelRecored];
+    };
     [RecordManager shareManager].progress = ^(float progress){
         [weakSelf refreshProgress:progress];
     };
@@ -80,8 +85,11 @@ static double endRecordTime=0;
 
         }
     }];
-
  }
+
+- (void)cancelRecored{
+    [[RecordManager shareManager] cancelTalkVoice];
+}
 - (void)play:(NSData*)data{
 //    NSData *data = [NSData dataWithContentsOfFile:path];
    [[RecordManager shareManager] playAmrData:data];

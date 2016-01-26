@@ -20,6 +20,7 @@ typedef void (^progressBlock)(float progress);
 /* 录音 uid文件名_时间戳*/
 - (void)recordVioce:(NSString*)uid;
 - (NSURL*)stopVioce;
+- (void)cancleVoice;
 
 /* 获取时长 */
 - (NSString*)getAudioTime:(NSData *) data;

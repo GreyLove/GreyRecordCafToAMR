@@ -264,6 +264,28 @@
     return tempFile;
 }
 /**
+ *  暂停录音
+ */
+
+- (void)pauseVoice{
+    if ([_audioRecorder isRecording]) {
+        
+        [_audioRecorder pause];
+    }
+}
+/**
+ *  取消
+ */
+- (void)cancleVoice{
+    _audioRecorder.delegate = nil;
+    if ([_audioRecorder isRecording]) {
+        [_audioRecorder stop];
+        [_audioRecorder deleteRecording];
+    }
+    _audioRecorder = nil;
+}
+
+/**
  *  销毁
  */
 - (void)destroy{

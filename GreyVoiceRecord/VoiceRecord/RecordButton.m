@@ -33,29 +33,29 @@
     
 }
 - (void)recordButtonTouchDown{
-//    NSLog(@"UIControlEventTouchDown");
+    NSLog(@"UIControlEventTouchDown--开始点击");
 //    [self recordClick];
     [self record];
 }
 - (void)recordButtonTouchUpOutside{
-//    NSLog(@"UIControlEventTouchUpOutside");
+    NSLog(@"UIControlEventTouchUpOutside--松手取消录音");//松手取消录音
     //    [self stopClick];
-    [self stop];
+    [self cancel];
  }
 - (void)recordButtonTouchUpInside{
-//    NSLog(@"UIControlEventTouchUpInside");
+    NSLog(@"UIControlEventTouchUpInside--松开点击");
     //    [self stopClick];
     [self stop];
 }
 - (void)recordDragOutside{
-//    NSLog(@"UIControlEventTouchDragExit");
+    NSLog(@"UIControlEventTouchDragExit--手指移到外面");
     //    [self pauseClick];
-    [self stop];
+//    [self cancel];
 }
 - (void)recordDragInside{
-//    NSLog(@"UIControlEventTouchDragEnter");
+    NSLog(@"UIControlEventTouchDragEnter--手指移到里面");
     //    [self resumeClick];
-    [self stop];
+//    [self stop];
 }
 - (void)record{
     if (_recordClickBlock) {
@@ -67,4 +67,11 @@
         _stopClickBlock();
     }
 }
+
+- (void)cancel{
+    if (_cancleClickBlock) {
+        _cancleClickBlock();
+    }
+}
+
 @end

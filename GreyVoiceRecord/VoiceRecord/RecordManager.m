@@ -50,6 +50,10 @@ static RecordManager *signle = nil;
     return fileUrl;
 }
 
+- (void)cancelTalkVoice{
+    [recordVoice cancleVoice];
+}
+
 - (void)playAmrData:(NSData*)amrData{
 
     if ([amrData isKindOfClass:[NSData class]]) {

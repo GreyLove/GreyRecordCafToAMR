@@ -10,6 +10,7 @@
 
 typedef void(^recordClick)();
 typedef void(^stopClick)();
+typedef void(^cancleClick)();
 
 @interface RecordButton : UIButton
 
@@ -20,4 +21,6 @@ typedef void(^stopClick)();
 @property (nonatomic, copy) recordClick recordClickBlock;
 
 @property (nonatomic, copy) stopClick stopClickBlock;
+
+@property (nonatomic, copy) cancleClick cancleClickBlock;
 @end
